@@ -1,0 +1,140 @@
+canvas {
+    border: 1px solid #d3d3d3;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#scoreboard {
+    widows: 350px;
+    height: 560px;
+    position: absolute;
+    left: 50%;
+    transform: translate(30%, 0%);
+}
+
+#scoreboard .inner-board {
+    width: inherit;
+    height: inherit;
+    position: relative;
+}
+
+#scoreboard .inner-board .fuel-meter {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    display: flex;
+    position: relative;
+    color: rgba(255, 255, 0, 0.719);
+}
+
+#scoreboard .inner-board .fuel-meter .fuel-level-container {
+    width: 50px;
+    border-color: black;
+    border-style: groove;
+}
+
+#scoreboard .inner-board .fuel-meter .fuel-level-container .fuel-level {
+    width: 50px;
+    height: 20px;
+    background-color:rgba(35, 223, 60, 0.856);
+}
+
+.meter-box{
+    background-color: rgba(0,0,0,0.5);
+    padding:5px 10px;
+    color:white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#scoreboard .inner-board .speedo-meter{
+    position: relative;
+    left:10px;
+    top:20px;
+    display: flex;            
+}
+
+#scoreboard .inner-board .speedo-meter .speed{
+    width:30px;
+    text-align: left;
+    color: rgba(255, 255, 0, 0.719);
+}
+
+#scoreboard .inner-board .speedo-meter .unit{
+    color: rgba(255, 255, 0, 0.719);
+}
+
+#scoreboard .inner-board .time-meter{
+    position: absolute;
+    right:10px;
+    top:10px;
+    display: flex;            
+}
+
+#scoreboard .inner-board .time-meter .label{
+    margin-right: 10px;
+}
+
+#scoreboard .inner-board .distance-meter{
+    position: absolute;
+    right:10px;
+    top:50px;
+    display: flex;            
+}
+
+#scoreboard .inner-board .distance-meter .distance{
+    margin-right: 10px;
+}
+
+#scoreboard .inner-board .messages{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: inherit;
+    height: inherit;
+}
+
+#scoreboard .inner-board .messages .try-again{
+    background-image:url('./images/try-again-screen.png');
+    width:inherit;
+    height: inherit;
+    display:none;
+}
+
+#scoreboard .inner-board .messages .game-over{
+    font-family: 'Hobo Std Medium';
+    color:red;
+    font-size: 72px;
+    text-align: center;
+    
+    padding-top: 30%;
+    width:inherit;
+    height: inherit;
+    display:none;
+}
+
+#scoreboard .inner-board .messages .game-over .game-over-message{
+    font-size: 24px;
+    color:black;
+    background-color:rgba(182, 231, 137, 0.5);
+    padding: 10px;
+    margin: 0px 30px;
+}
+#scoreboard .inner-board .messages .game-over .time-taken{
+    font-family: 'OCR A Std';
+    font-size: 36px;
+    color:white;
+    background-color:black;
+    padding: 20px;
+    padding-bottom: 10px;
+    margin: 10px 50px;
+}
+
+#scoreboard .inner-board .messages .game-over button{
+    font-family: 'Hobo Std Medium';
+    font-size: 36px;
+    border-radius: 5px;
+}

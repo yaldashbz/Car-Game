@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="car_game.css">
+</head>
+
+<body onload="startGame()">
+    <script src="car_game.js"></script>
+    <div id="scoreboard">
+        <div class="inner-board">
+            <div class="fuel-meter meter-box">
+                <div class="label">FUEL &nbsp</div>
+                <div class="fuel-level-container">
+                    <div class="fuel-level"></div>
+                </div>
+            </div>
+
+        
+            <div class="speedo-meter meter-box">
+                <div class="speed">
+                    0
+                </div>
+                <div class="unit">
+                    KM/h
+                </div>
+            </div><!-- speedo-meter -->
+            <!-- <div class="time-meter meter-box">
+                    <div class="label">
+                            TIME LAPSED:-
+                        </div>
+                    <div class="time">
+                        00:00:00
+                    </div>                    
+                </div> time-meter -->
+            <!-- <div class="distance-meter meter-box">
+                
+                <div class="distance">
+                    10 KMs
+                </div>
+                <div class="label">
+                        LEFT
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="messages">
+                <div class="try-again">
+                </div>
+                <div class="game-over">
+                    <div>Game Over</div>
+                    <div class="game-over-message">You have finished the race in</div>
+                    <div class="time-taken">00:00:00:00</div>
+                    <div class="game-over-message min-message">Minimum time recored before - 00:00:00:00</div>
+                    <button>Race Again</button>
+                </div>
+            </div>
+        
+
+        </div> <!-- inner-board -->
+    </div><!-- #scoreboard -->
+</body>
+
+</html>
