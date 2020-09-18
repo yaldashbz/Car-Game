@@ -22,7 +22,7 @@ function updateGameArea() {
             return;
         }
     }
-    
+
     myRoad.speedY = 2;
     myGameArea.frameNo += 1;
     // if (myGameArea.frameNo == 1 || everyinterval(300)) {
@@ -82,7 +82,7 @@ var myGameArea = {
         window.addEventListener('keyup', function (e) {
             myGameArea.keys[e.keyCode] = (e.type != "keyup");
         })
-        
+
     },
     clear: function () {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -128,8 +128,18 @@ function Component(width, height, color, x, y, type) {
             if (this.y >= (this.height)) {
                 this.y = 0;
             }
+        } else {
+            this.hitSides();
         }
     };
+    this.hitSides = function () {
+        if (this.x <= 50) {
+            this.x = 50;
+        }
+        if (this.x >= 350 - this.width - 50) {
+            this.x = 350 - this.width - 50;
+        }
+    }
     this.crashWith = function (otherobj) {
         var myleft = this.x;
         var myright = this.x + (this.width);
