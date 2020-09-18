@@ -1,7 +1,6 @@
-//import Component from './js_models/component.class'
 var myCar;
 var myObstacles = [];
-
+var myObstacle;
 
 function startGame() {
     var carHeight = 70;
@@ -10,32 +9,41 @@ function startGame() {
     var roadHeight = 560;
     myCar = new Component(carWidth, carHeight, "../images/player_car.png", roadWidth / 2 - carWidth - 7, roadHeight - carHeight - 30, "image");
     myRoad = new Component(roadWidth, roadHeight, "../images/road-1.png", 0, 0, "background");
+    myObstacle = new Component(30, 30, "../images/black-hole.png", 60 , -10, "image");
     myGameArea.start();
 }
 
 function updateGameArea() {
     myCar.speedX = 0;
     myCar.speedY = 0;
-    for (i = 0; i < myObstacles.length; i += 1) {
-        if (myCar.crashWith(myObstacles[i])) {
-            myGameArea.stop();
-            return;
-        }
+    if (myCar.crashWith(myObstacle)) {
+        myGameArea.stop();
+        return;
     }
+    // for (i = 0; i < myObstacles.length; i += 1) {
+    //     if (myCar.crashWith(myObstacles[i])) {
+    //         myGameArea.stop();
+    //         return;
+    //     }
+    // }
 
     myRoad.speedY = 2;
+    myObstacle.speedY = 2;
     myGameArea.frameNo += 1;
-    // if (myGameArea.frameNo == 1 || everyinterval(300)) {
-    //     x = myGameArea.canvas.width;
-    //     minGap = 50;
-    //     maxGap = 200;
-    //     gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-    //     myObstacles.push(new Component(carWidth, carHeight, , x, 0, "image"));
-    // }
-    // for (i = 0; i < myObstacles.length; i += 1) {
-    //     myObstacles[i].x += -1;
-    //     myObstacles[i].update();
-    // }
+    if (myGameArea.frameNo == 1 || everyinterval(300)) {
+        minGap = 50;
+        maxGap = 300;
+        x = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+        myObstacles.push(new Component(40, 70, "../images/black-hole.png", x, 30, "image"));
+        let ob = myObstacles.pop();
+        console.log(ob);
+    }
+    console.log(myObstacles.length)
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].speedY = 2;
+        myObstacles[i].newPos();
+        myObstacles[i].update();
+    }
     if (myGameArea.keys && myGameArea.keys[37]) {
         myCar.speedX = -1.5;
     }
@@ -44,18 +52,27 @@ function updateGameArea() {
     }
     if (myGameArea.keys && myGameArea.keys[38]) {
         myRoad.speedY = 3.5;
+        myObstacle.speedY = 3.5
+        updateObstaclesSpeed(myObstacles, 3.5);
     }
     if (myGameArea.keys && myGameArea.keys[40]) {
         myRoad.speedY = 1;
+        myObstacle.speedY = 1;
+        updateObstaclesSpeed(myObstacles, 1);
     }
     myGameArea.clear();
     myRoad.newPos();
     myRoad.update();
     myCar.newPos();
     myCar.update();
+    myObstacle.newPos(true);
+    myObstacle.update();
+}
 
-    // myScore.text = "SCORE: " + myGameArea.frameNo;
-    // myScore.update();
+function updateObstaclesSpeed(myObstacles, speed) {
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].speedY = speed;
+    }
 }
 
 function everyinterval(n) {
@@ -70,7 +87,6 @@ var myGameArea = {
     start: function () {
         this.canvas.width = 350;
         this.canvas.height = 560;
-        //this.canvas.style.cursor = "none";
         this.frameNo = 0;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
@@ -105,6 +121,10 @@ function Component(width, height, color, x, y, type) {
     this.y = y;
     this.speedX = 0;
     this.speedY = 0;
+    this.carHeight = 70;
+    this.carWidth = 40;
+    this.roadWidth = 350;
+    this.roadHeight = 560;
     this.update = function () {
         ctx = myGameArea.context;
         if (this.type == "text") {
@@ -121,7 +141,12 @@ function Component(width, height, color, x, y, type) {
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
     }
-    this.newPos = function () {
+    this.newPos = function (isObstacle) {
+        if (isObstacle) {
+            if (this.y >= this.roadHeight) {
+                this.y = 0;
+            }
+        }
         this.x += this.speedX;
         this.y += this.speedY;
         if (this.type == "background") {
@@ -136,8 +161,8 @@ function Component(width, height, color, x, y, type) {
         if (this.x <= 50) {
             this.x = 50;
         }
-        if (this.x >= 350 - this.width - 50) {
-            this.x = 350 - this.width - 50;
+        if (this.x >= this.roadWidth - this.width - 50) {
+            this.x = this.roadWidth - this.width - 50;
         }
     }
     this.crashWith = function (otherobj) {
