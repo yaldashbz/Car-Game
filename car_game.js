@@ -20,30 +20,27 @@ function updateGameArea() {
         myGameArea.stop();
         return;
     }
-    // for (i = 0; i < myObstacles.length; i += 1) {
-    //     if (myCar.crashWith(myObstacles[i])) {
-    //         myGameArea.stop();
-    //         return;
-    //     }
-    // }
-
+    for (i = 0; i < myObstacles.length; i += 1) {
+        if (myCar.crashWith(myObstacles[i])) {
+            myGameArea.stop();
+            return;
+        }
+    }
+    myGameArea.clear();
     myRoad.speedY = 2;
     myObstacle.speedY = 2;
     myGameArea.frameNo += 1;
-    if (myGameArea.frameNo == 1 || everyinterval(300)) {
+    if (myGameArea.frameNo == 1 || everyinterval(200)) {
         minGap = 50;
         maxGap = 300;
         x = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-        myObstacles.push(new Component(40, 70, "../images/black-hole.png", x, 30, "image"));
-        let ob = myObstacles.pop();
-        console.log(ob);
+        myObstacles.push(new Component(50, 50, "../images/black-hole.png", x, -40, "image"));
     }
-    console.log(myObstacles.length)
+
     for (i = 0; i < myObstacles.length; i += 1) {
         myObstacles[i].speedY = 2;
-        myObstacles[i].newPos();
-        myObstacles[i].update();
     }
+    
     if (myGameArea.keys && myGameArea.keys[37]) {
         myCar.speedX = -1.5;
     }
@@ -52,12 +49,10 @@ function updateGameArea() {
     }
     if (myGameArea.keys && myGameArea.keys[38]) {
         myRoad.speedY = 3.5;
-        myObstacle.speedY = 3.5
         updateObstaclesSpeed(myObstacles, 3.5);
     }
     if (myGameArea.keys && myGameArea.keys[40]) {
         myRoad.speedY = 1;
-        myObstacle.speedY = 1;
         updateObstaclesSpeed(myObstacles, 1);
     }
     myGameArea.clear();
@@ -65,8 +60,15 @@ function updateGameArea() {
     myRoad.update();
     myCar.newPos();
     myCar.update();
-    myObstacle.newPos(true);
-    myObstacle.update();
+    
+    for (i = 0; i < myObstacles.length; i += 1) {
+        let ob = myObstacles[i];
+        ob.newPos();
+        ob.update();
+        if (ob.height > ob.roadHeight) {
+            myObstacles.splice(i, 1);
+        }
+    }
 }
 
 function updateObstaclesSpeed(myObstacles, speed) {
@@ -133,6 +135,7 @@ function Component(width, height, color, x, y, type) {
             ctx.fillText(this.text, this.x, this.y);
         } else if (type == "image" || type == "background") {
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+            console.log("i nhaa");
             if (type == "background") {
                 ctx.drawImage(this.image, this.x, this.y - this.height, this.width, this.height);
             }
@@ -175,10 +178,10 @@ function Component(width, height, color, x, y, type) {
         var othertop = otherobj.y + (otherobj.height);
         var otherbottom = otherobj.y;
         var crash = true;
-        if ((mybottom > othertop) ||
-            (mytop < otherbottom) ||
-            (myright < otherleft) ||
-            (myleft > otherright)) {
+        if ((mybottom > othertop - 5) ||
+            (mytop - 5 < otherbottom) ||
+            (myright - 5 < otherleft) ||
+            (myleft > otherright - 5)) {
             crash = false;
         }
         return crash;
