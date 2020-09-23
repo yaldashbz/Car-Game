@@ -1,6 +1,6 @@
 var myCar;
 var myObstacles = [];
-var myObstacle;
+
 
 function startGame() {
     var carHeight = 70;
@@ -9,17 +9,13 @@ function startGame() {
     var roadHeight = 560;
     myCar = new Component(carWidth, carHeight, "../images/player_car.png", roadWidth / 2 - carWidth - 7, roadHeight - carHeight - 30, "image");
     myRoad = new Component(roadWidth, roadHeight, "../images/road-1.png", 0, 0, "background");
-    myObstacle = new Component(30, 30, "../images/black-hole.png", 60 , -10, "image");
     myGameArea.start();
 }
 
 function updateGameArea() {
     myCar.speedX = 0;
     myCar.speedY = 0;
-    if (myCar.crashWith(myObstacle)) {
-        myGameArea.stop();
-        return;
-    }
+    
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myCar.crashWith(myObstacles[i])) {
             myGameArea.stop();
@@ -28,7 +24,6 @@ function updateGameArea() {
     }
     myGameArea.clear();
     myRoad.speedY = 2;
-    myObstacle.speedY = 2;
     myGameArea.frameNo += 1;
     if (myGameArea.frameNo == 1 || everyinterval(200)) {
         minGap = 50;
@@ -106,7 +101,10 @@ var myGameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     stop: function () {
-        clearInterval(this.interval);
+        let image = new Image();
+        image.src = "../images/game-over.png";
+        myGameArea.context.drawImage(image, 125, 100, 100, 100);
+        //clearInterval(this.interval);
     }
 }
 
@@ -135,7 +133,6 @@ function Component(width, height, color, x, y, type) {
             ctx.fillText(this.text, this.x, this.y);
         } else if (type == "image" || type == "background") {
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-            console.log("i nhaa");
             if (type == "background") {
                 ctx.drawImage(this.image, this.x, this.y - this.height, this.width, this.height);
             }
